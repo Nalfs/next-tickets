@@ -23,6 +23,7 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="system"
           enableSystem
+          themes={["light", "dark", "pink", "blue"]}
           disableTransitionOnChange
         >
           <nav className="flex flex-col items-center border-b mb-5 px-5 py-3">
