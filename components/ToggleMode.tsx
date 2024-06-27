@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { Moon, Sun, Cloud, Star, Heart } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -22,7 +23,16 @@ const themeIcons: Record<string, React.ComponentType> = {
 
 export function ToggleMode() {
   const { theme, setTheme, themes } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const ThemeIcon = theme ? themeIcons[theme] : Sun;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <Button variant="outline" size="icon" disabled={true}></Button>;
+  }
 
   return (
     <DropdownMenu>
