@@ -38,7 +38,7 @@ export function ToggleMode() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          <ThemeIcon className="h-[1.2rem] w-[1.2rem]" />
+          <ThemeIcon className="h-[1.2rem] w-[1.2rem] hover:cursor-pointer hover:text-primary" />
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
