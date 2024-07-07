@@ -14,7 +14,6 @@ interface DataTableProps {
 }
 
 const DataTable = ({ tickets }: DataTableProps) => {
-  console.log("DataTable Tickets: ", tickets);
   return (
     <div className="w-full mt-5">
       <div className="rounded-md sm:border">
@@ -34,7 +33,15 @@ const DataTable = ({ tickets }: DataTableProps) => {
                   <TableCell>{ticket.title}</TableCell>
                   <TableCell>{ticket.status}</TableCell>
                   <TableCell>{ticket.priority}</TableCell>
-                  <TableCell>{ticket.createdAt.toLocaleDateString()}</TableCell>
+                  <TableCell>
+                    {ticket.createdAt.toLocaleDateString("sv-SE", {
+                      year: "2-digit",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
