@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import React from "react";
+import TicketStatusbadge from "@/components/TicketStatusbadge";
 
 interface DataTableProps {
   tickets: Ticket[];
@@ -21,7 +22,9 @@ const DataTable = ({ tickets }: DataTableProps) => {
           <TableHeader>
             <TableRow>
               <TableHead>Title</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>
+                <div className="flex justify-center">Status </div>
+              </TableHead>
               <TableHead>Priority</TableHead>
               <TableHead>Created at</TableHead>
             </TableRow>
@@ -31,7 +34,11 @@ const DataTable = ({ tickets }: DataTableProps) => {
               tickets.map((ticket) => (
                 <TableRow key={ticket.id} data-href="/">
                   <TableCell>{ticket.title}</TableCell>
-                  <TableCell>{ticket.status}</TableCell>
+                  <TableCell>
+                    <div className="flex justify-center">
+                      <TicketStatusbadge status={ticket.status} />
+                    </div>
+                  </TableCell>
                   <TableCell>{ticket.priority}</TableCell>
                   <TableCell>
                     {ticket.createdAt.toLocaleDateString("sv-SE", {
