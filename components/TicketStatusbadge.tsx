@@ -14,7 +14,7 @@ const statusMap: Record<
   STARTED: { label: "Started", color: "bg-blue-400" },
   CLOSED: { label: "Closed", color: "bg-green-400" },
 };
-
+console.log("test");
 const TicketStatusbadge = ({ status }: Props) => {
   return (
     <Badge
