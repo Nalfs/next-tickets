@@ -1,13 +1,13 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { ticketSchema } from "@/ValidationSchemas/ticket";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "./ui/input";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
-import { Input } from "./ui/input";
 import {
   Select,
   SelectContent,
@@ -15,15 +15,47 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { Button } from "./ui/button";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { Ticket } from "@prisma/client";
 
 type TicketFormData = z.infer<typeof ticketSchema>;
 
-const TicketForm = () => {
-  const form = useForm<TicketFormData>({ resolver: zodResolver(ticketSchema) });
+interface Props {
+  ticket?: Ticket;
+}
+
+const TicketForm = ({ ticket }: Props) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const form = useForm<TicketFormData>({
+    resolver: zodResolver(ticketSchema),
+  });
 
   async function onSubmit(values: z.infer<typeof ticketSchema>) {
-    console.log("val: ", values);
+    try {
+      setIsSubmitting(true);
+      setError("");
+
+      if (ticket) {
+        await axios.patch("/api/tickets/" + ticket.id, values);
+      } else {
+        console.log("#####sending");
+        await axios.post("/api/tickets", values);
+      }
+      setIsSubmitting(false);
+      router.push("/tickets");
+      router.refresh();
+    } catch (error) {
+      console.log("####", error);
+      setError("Unknown Error Occured.");
+      setIsSubmitting(false);
+    }
   }
+
   return (
     <div className="rounded-md border w-full p-4">
       <Form {...form}>
@@ -34,7 +66,7 @@ const TicketForm = () => {
           <FormField
             control={form.control}
             name="title"
-            // defaultValue={ticket?.title}
+            defaultValue={ticket?.title}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Ticket Title</FormLabel>
@@ -46,7 +78,7 @@ const TicketForm = () => {
           />
           <Controller
             name="description"
-            // defaultValue={ticket?.description}
+            defaultValue={ticket?.description}
             control={form.control}
             render={({ field }) => (
               <SimpleMDE placeholder="Description" {...field} />
@@ -56,7 +88,7 @@ const TicketForm = () => {
             <FormField
               control={form.control}
               name="status"
-              //   defaultValue={ticket?.status}
+              defaultValue={ticket?.status}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
@@ -68,7 +100,7 @@ const TicketForm = () => {
                       <SelectTrigger>
                         <SelectValue
                           placeholder="Status..."
-                          //   defaultValue={ticket?.status}
+                          defaultValue={ticket?.status}
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -84,7 +116,7 @@ const TicketForm = () => {
             <FormField
               control={form.control}
               name="priority"
-              //   defaultValue={ticket?.priority}
+              defaultValue={ticket?.priority}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Priority</FormLabel>
@@ -96,7 +128,7 @@ const TicketForm = () => {
                       <SelectTrigger>
                         <SelectValue
                           placeholder="Priority..."
-                          //   defaultValue={ticket?.priority}
+                          defaultValue={ticket?.priority}
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -110,8 +142,12 @@ const TicketForm = () => {
               )}
             />
           </div>
+          <Button type="submit" disabled={isSubmitting}>
+            {ticket ? "Update Ticket" : "Create Ticket"}
+          </Button>
         </form>
       </Form>
+      <p className="text-destructive">{error}</p>
     </div>
   );
 };
