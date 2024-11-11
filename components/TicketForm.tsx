@@ -25,7 +25,17 @@ type TicketFormData = z.infer<typeof ticketSchema>;
 interface Props {
   ticket?: Ticket;
 }
-
+/**
+ * TicketForm component for creating or updating a ticket.
+ *
+ * This component renders a form with fields for title, description, status, and priority.
+ * It validates the data using Zod schema and manages form submission,
+ * including error handling and navigation after submission.
+ *
+ * @component
+ * @param {Props} props - The component props.
+ * @param {Ticket} [props.ticket] - Optional existing ticket data for pre-filling fields (used when editing).
+ */
 const TicketForm = ({ ticket }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
