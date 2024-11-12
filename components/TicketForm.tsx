@@ -50,7 +50,11 @@ const TicketForm = ({ ticket }: Props) => {
       setIsSubmitting(true);
       setError("");
       console.log("#####sending");
-      await axios.post("/api/tickets", values);
+      if (ticket) {
+        await axios.patch("/api/tickets" + ticket.id, values);
+      } else {
+        await axios.post("/api/tickets", values);
+      }
       setIsSubmitting(false);
       router.push("/tickets");
       router.refresh();

@@ -16,7 +16,7 @@ const EditTicket = async ({ params }: Props) => {
   if (!ticket) {
     return <p className="text-destructive">Ticket not found!</p>;
   }
-  return <div>Edit ticket</div>;
+  return <TicketForm ticket={ticket} />;
 };
 
 export default EditTicket;
