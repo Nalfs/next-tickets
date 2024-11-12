@@ -1,0 +1,22 @@
+import dynamic from "next/dynamic";
+import { NextRequest, NextResponse } from "next/server";
+import React from "react";
+
+interface Props {
+  params: { id: string };
+}
+const TicketForm = dynamic(() => import("@/components/TicketForm"), {
+  ssr: false,
+});
+
+const EditTicket = async ({ params }: Props) => {
+  const ticket = await prisma?.ticket.findUnique({
+    where: { id: parseInt(params.id) },
+  });
+  if (!ticket) {
+    return <p className="text-destructive">Ticket not found!</p>;
+  }
+  return <div>Edit ticket</div>;
+};
+
+export default EditTicket;
