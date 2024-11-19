@@ -13,8 +13,8 @@ import TicketPriority from "@/components/TicketPriority";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import ReactMarkDown from "react-markdown";
-import DeleteButton from "./DeleteButton";
 import AssignTicket from "@/components/AssignTicket";
+import DeleteButton from "./DeleteButton";
 
 interface Props {
   ticket: Ticket;
@@ -22,6 +22,7 @@ interface Props {
 }
 
 const TicketDetail = ({ ticket, users }: Props) => {
+  console.log("ticket", ticket);
   return (
     <div className="lg:grid lg:grid-cols-4">
       <Card className="mx-4 mb-4 lg:col-span-3 lg:mr-4">
