@@ -8,12 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import TicketStatusBadge from "@/components/TicketStatusBadge";
+import TicketStatusBadge from "@/components/TicketStatusbadge";
 import TicketPriority from "@/components/TicketPriority";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import ReactMarkDown from "react-markdown";
-import AssignTicket from "@/components/AssignTicket";
+// import AssignTicket from "@/components/AssignTicket";
 import DeleteButton from "./DeleteButton";
 
 interface Props {
@@ -60,7 +60,7 @@ const TicketDetail = ({ ticket, users }: Props) => {
         </CardFooter>
       </Card>
       <div className="mx-4 flex lg:flex-col lg:mx-0 gap-2">
-        <AssignTicket ticket={ticket} users={users} />
+        {/* <AssignTicket ticket={ticket} users={users} /> */}
         <Link
           href={`/tickets/edit/${ticket.id}`}
           className={`${buttonVariants({
